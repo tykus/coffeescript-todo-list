@@ -12,17 +12,24 @@
 
   App = (function() {
     function App() {
+      this.cacheElements();
       this.bindEvents();
     }
 
+    App.prototype.cacheElements = function() {
+      return this.$input = $('#new-todo');
+    };
+
     App.prototype.bindEvents = function() {
-      return $('#new-todo').on('keyup', this.create);
+      var _this = this;
+      return this.$input.on('keyup', function(e) {
+        return _this.create(e);
+      });
     };
 
     App.prototype.create = function(e) {
-      var $input, randomId, val;
-      $input = $(this);
-      val = $.trim($input.val());
+      var randomId, val;
+      val = $.trim(this.$input.val());
       if (!(e.which === 13 && val)) {
         return;
       }
@@ -32,7 +39,12 @@
         title: val,
         completed: false
       });
-      return $input.val('');
+      this.$input.val('');
+      return this.displayItems();
+    };
+
+    App.prototype.displayItems = function() {
+      return console.log("Displaying items");
     };
 
     return App;

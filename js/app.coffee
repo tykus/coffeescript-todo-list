@@ -6,17 +6,21 @@ Storage::getObj = (key) ->
 
 class App
   constructor: ->
+    # cache the DOM element rather than looking it up every time the  
+    @cacheElements()
+    # evnet handling
     @bindEvents()
+
+  cacheElements: ->
+    @$input = $('#new-todo')
 
   bindEvents: ->
     # select the new-todo input and handle it's keyup event
-    $('#new-todo').on('keyup', @create)
+    @$input.on('keyup', (e) => @create(e))
 
   create: (e) ->
-    # $(this) will return the element which generated the event and assign it to $input
-    $input = $(this)
     # get the value of the input using the val() function
-    val = $.trim $input.val()
+    val = $.trim @$input.val()
     # check if the Enter key has been pressed and #new-todo has a value
     return unless e.which == 13 and val
     # generate a random id for localStorage key
@@ -27,8 +31,13 @@ class App
       title: val
       completed: false
     }
-    # clear the contents of the inpsut
-    $input.val ''
+    # clear the contents of the input
+    @$input.val ''
+    # update the list of todo items
+    @displayItems()
+
+  displayItems: ->
+    console.log "Displaying items"
 
 $ ->
   app = new App
