@@ -8,11 +8,14 @@ class App
   constructor: ->
     # cache the DOM element rather than looking it up every time the  
     @cacheElements()
-    # evnet handling
+    # event handling
     @bindEvents()
+    # display all existing todo items
+    @displayItems()
 
   cacheElements: ->
     @$input = $('#new-todo')
+    @$todoList = $('#todo-list')
 
   bindEvents: ->
     # select the new-todo input and handle it's keyup event
@@ -37,7 +40,18 @@ class App
     @displayItems()
 
   displayItems: ->
-    console.log "Displaying items"
+    # empty the todo list of any existing todo items before re-populating
+    @clearItems()
+    # add each existing todo item in localStorage
+    @addItem(localStorage.getObj(id)) for id in Object.keys(localStorage)
+
+  clearItems: ->
+    @$todoList.empty()
+
+  addItem: (item) ->
+    html = """<li data-id="#{item.id}">"#{item.title}"</li>"""
+    @$todoList.append(html)
+
 
 $ ->
   app = new App

@@ -14,10 +14,12 @@
     function App() {
       this.cacheElements();
       this.bindEvents();
+      this.displayItems();
     }
 
     App.prototype.cacheElements = function() {
-      return this.$input = $('#new-todo');
+      this.$input = $('#new-todo');
+      return this.$todoList = $('#todo-list');
     };
 
     App.prototype.bindEvents = function() {
@@ -44,7 +46,25 @@
     };
 
     App.prototype.displayItems = function() {
-      return console.log("Displaying items");
+      var id, _i, _len, _ref, _results;
+      this.clearItems();
+      _ref = Object.keys(localStorage);
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        id = _ref[_i];
+        _results.push(this.addItem(localStorage.getObj(id)));
+      }
+      return _results;
+    };
+
+    App.prototype.clearItems = function() {
+      return this.$todoList.empty();
+    };
+
+    App.prototype.addItem = function(item) {
+      var html;
+      html = "<li data-id=\"" + item.id + "\">\"" + item.title + "\"</li>";
+      return this.$todoList.append(html);
     };
 
     return App;
