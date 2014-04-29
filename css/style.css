@@ -25,6 +25,19 @@ body {
 }
 
 #todo-list li {
-  border-top: 1px solid #dcdcdc;
   font-weight: 100;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.destroy {
+  background-color: #dcdcdc;
+  border: 0;
+  clear: both;
+  float: right;
+}
+
+.destroy:hover {
+  background-color: #fc0;
+  cursor: pointer;
 }

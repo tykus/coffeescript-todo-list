@@ -24,8 +24,11 @@
 
     App.prototype.bindEvents = function() {
       var _this = this;
-      return this.$input.on('keyup', function(e) {
+      this.$input.on('keyup', function(e) {
         return _this.create(e);
+      });
+      return this.$todoList.on('click', '.destroy', function(e) {
+        return _this.destroy(e.target);
       });
     };
 
@@ -63,8 +66,16 @@
 
     App.prototype.addItem = function(item) {
       var html;
-      html = "<li data-id=\"" + item.id + "\">" + item.title + "</li>";
+      html = "<li data-id=\"" + item.id + "\">\n  <input class=\"toggle\" type=\"checkbox\" " + (item.completed ? 'checked' : '') + ">\n  " + item.title + "\n  <button class=\"destroy\">Delete</button>\n</li>";
       return this.$todoList.append(html);
+    };
+
+    App.prototype.destroy = function(elem) {
+      var id;
+      id = $(elem).closest('li').data('id');
+      console.log("Deleting item " + id);
+      localStorage.removeItem(id);
+      return this.displayItems();
     };
 
     return App;
