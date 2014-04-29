@@ -83,9 +83,13 @@ class App
     localStorage.setObj(id, item)
 
   clearCompleted: () ->
+    # loop over the items in localStorage
     for id in Object.keys(localStorage)
+      # get the item
       item = localStorage.getObj(id)
+      # remove the item if it is completed
       localStorage.removeItem(id) if item.completed
+      # refresh the items being displayed
       @displayItems()
 
 $ ->
