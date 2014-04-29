@@ -20,8 +20,10 @@ class App
   bindEvents: ->
     # select the new-todo input and handle it's keyup event
     @$input.on('keyup', (e) => @create(e))
-    #event handler for the remove task button
+    # event handler for the remove task button
     @$todoList.on('click', '.destroy', (e) => @destroy(e.target))
+    # event handler for the complete task checkbook
+    @$todoList.on('change', '.toggle', (e) => @toggle(e.target))
 
   create: (e) ->
     # get the value of the input using the val() function
@@ -60,9 +62,14 @@ class App
 
   destroy: (elem) ->
     id = $(elem).closest('li').data('id')
-    console.log "Deleting item #{id}"
     localStorage.removeItem(id)
     @displayItems()
 
+  toggle: (elem) ->
+    id = $(elem).closest('li').data('id')
+    item = localStorage.getObj(id)
+    item.completed = !item.completed
+    localStorage.setObj(id, item)
+    
 $ ->
   app = new App

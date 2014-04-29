@@ -27,8 +27,11 @@
       this.$input.on('keyup', function(e) {
         return _this.create(e);
       });
-      return this.$todoList.on('click', '.destroy', function(e) {
+      this.$todoList.on('click', '.destroy', function(e) {
         return _this.destroy(e.target);
+      });
+      return this.$todoList.on('change', '.toggle', function(e) {
+        return _this.toggle(e.target);
       });
     };
 
@@ -73,9 +76,16 @@
     App.prototype.destroy = function(elem) {
       var id;
       id = $(elem).closest('li').data('id');
-      console.log("Deleting item " + id);
       localStorage.removeItem(id);
       return this.displayItems();
+    };
+
+    App.prototype.toggle = function(elem) {
+      var id, item;
+      id = $(elem).closest('li').data('id');
+      item = localStorage.getObj(id);
+      item.completed = !item.completed;
+      return localStorage.setObj(id, item);
     };
 
     return App;
