@@ -19,7 +19,8 @@
 
     App.prototype.cacheElements = function() {
       this.$input = $('#new-todo');
-      return this.$todoList = $('#todo-list');
+      this.$todoList = $('#todo-list');
+      return this.$clearCompleted = $('#clear-completed');
     };
 
     App.prototype.bindEvents = function() {
@@ -30,8 +31,11 @@
       this.$todoList.on('click', '.destroy', function(e) {
         return _this.destroy(e.target);
       });
-      return this.$todoList.on('change', '.toggle', function(e) {
+      this.$todoList.on('change', '.toggle', function(e) {
         return _this.toggle(e.target);
+      });
+      return this.$clearCompleted.click(function() {
+        return _this.clearCompleted();
       });
     };
 
@@ -86,6 +90,21 @@
       item = localStorage.getObj(id);
       item.completed = !item.completed;
       return localStorage.setObj(id, item);
+    };
+
+    App.prototype.clearCompleted = function() {
+      var id, item, _i, _len, _ref, _results;
+      _ref = Object.keys(localStorage);
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        id = _ref[_i];
+        item = localStorage.getObj(id);
+        if (item.completed) {
+          localStorage.removeItem(id);
+        }
+        _results.push(this.displayItems());
+      }
+      return _results;
     };
 
     return App;

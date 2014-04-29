@@ -16,6 +16,7 @@ class App
   cacheElements: ->
     @$input = $('#new-todo')
     @$todoList = $('#todo-list')
+    @$clearCompleted = $('#clear-completed')
 
   bindEvents: ->
     # select the new-todo input and handle it's keyup event
@@ -24,6 +25,8 @@ class App
     @$todoList.on('click', '.destroy', (e) => @destroy(e.target))
     # event handler for the complete task checkbook
     @$todoList.on('change', '.toggle', (e) => @toggle(e.target))
+    # event handler for the 'clear completed' button
+    @$clearCompleted.click => @clearCompleted()
 
   create: (e) ->
     # get the value of the input using the val() function
@@ -57,19 +60,33 @@ class App
                 <input class="toggle" type="checkbox" #{if item.completed then 'checked' else ''}>
                 #{item.title}
                 <button class="destroy">Delete</button>
-              </li>"""
+              </li>
+           """
     @$todoList.append(html)
 
   destroy: (elem) ->
+    # get the todo item id from the data-id of the closest <li> element
     id = $(elem).closest('li').data('id')
+    # remove the item from localStorage
     localStorage.removeItem(id)
+    # display the items again
     @displayItems()
 
   toggle: (elem) ->
+    # get the todo item id from the data-id of the closest <li> element
     id = $(elem).closest('li').data('id')
+    # fetch the item from localStorage
     item = localStorage.getObj(id)
+    # toggle the 'completed' property
     item.completed = !item.completed
+    # save the todo item
     localStorage.setObj(id, item)
-    
+
+  clearCompleted: () ->
+    for id in Object.keys(localStorage)
+      item = localStorage.getObj(id)
+      localStorage.removeItem(id) if item.completed
+      @displayItems()
+
 $ ->
   app = new App
