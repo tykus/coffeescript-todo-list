@@ -63,7 +63,7 @@
 
     App.prototype.addItem = function(item) {
       var html;
-      html = "<li data-id=\"" + item.id + "\">\"" + item.title + "\"</li>";
+      html = "<li data-id=\"" + item.id + "\">" + item.title + "</li>";
       return this.$todoList.append(html);
     };
 

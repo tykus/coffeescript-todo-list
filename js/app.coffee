@@ -6,7 +6,7 @@ Storage::getObj = (key) ->
 
 class App
   constructor: ->
-    # cache the DOM element rather than looking it up every time the  
+    # cache the DOM element rather than looking it up for every event
     @cacheElements()
     # event handling
     @bindEvents()
@@ -49,7 +49,7 @@ class App
     @$todoList.empty()
 
   addItem: (item) ->
-    html = """<li data-id="#{item.id}">"#{item.title}"</li>"""
+    html = """<li data-id="#{item.id}">#{item.title}</li>"""
     @$todoList.append(html)
 
 

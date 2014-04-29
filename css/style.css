@@ -17,3 +17,14 @@ body {
   font-weight: 100;
   width: 100%;
 }
+
+#todo-list {
+  list-style: none;
+  list-style-position: inside;
+  margin-left: -40px;
+}
+
+#todo-list li {
+  border-top: 1px solid #dcdcdc;
+  font-weight: 100;
+}
